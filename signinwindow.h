@@ -15,8 +15,8 @@ class SignInWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    int balance;
     SignInWindow(QWidget *parent = nullptr);
+
     ~SignInWindow();
 
 private slots:
@@ -24,9 +24,11 @@ private slots:
 
 private:
     Ui::SignInWindow *ui;
-    int size;
-    string* names;
-    string* passwords;
+
+    int size;   // Number of users
+    int* balance; // Array containing the balances of users
+    string* names;  // Array containing the names of users
+    string* passwords; // Array containing the passwords of users
 
 };
 #endif // SIGNINWINDOW_H

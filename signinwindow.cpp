@@ -7,13 +7,18 @@ SignInWindow::SignInWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    balance = 100;
     size = 3;
+
+    // Create the arrays in the heap
     names = new string[size];
     passwords = new string[size];
+    balance = new int[size];
+
+    // Initialize the arrays with each account's information
     for (int i = 0; i < size; ++i) {
         names[i] = "user" + to_string(i+1);
         passwords[i] = "pass" + to_string(i+1);
+        balance[i] = 100 + i;
     }
 }
 
@@ -26,24 +31,24 @@ SignInWindow::~SignInWindow()
 void SignInWindow::on_pushButton_clicked()
 {
     for (int i = 0; i < size; ++i) {
-        if (ui->nameEdit->text() == QString::fromStdString(names[i]))
+        if (ui->nameEdit->text() == QString::fromStdString(names[i]))   // Check if the name is correct
         {
-            if (ui->passwordEdit->text() == QString::fromStdString(passwords[i])) {
+            if (ui->passwordEdit->text() == QString::fromStdString(passwords[i])) {   // Check if the password is correct
                 ui->errorMess->setText("Signed in successfully");
-                ui->balanceSignIn->setText(QString::number(balance)+ " LE");
+                ui->balanceSignIn->setText(QString::number(balance[i])+ " LE");     // Set the balance
 
-                Dialog dialog;
-                dialog.setBalance(balance);
+                Dialog dialog;  // Create a new window to choose items
+                dialog.setBalance(balance[i]);  // Pass the balance to the new window
                 dialog.setModal(true);
                 dialog.exec();
                 break;
             } else {
-                ui->errorMess->setText("Correct name; wrong password");
+                ui->errorMess->setText("Correct name; wrong password"); // Case password is wrong
                 break;
             }
         }
         if (i == size - 1) {
-            ui->errorMess->setText("Name does not exist");
+            ui->errorMess->setText("Name does not exist");  // Case name is wrong
         }
     }
 
